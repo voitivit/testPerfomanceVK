@@ -42,6 +42,7 @@
 		F70D478D2695DA7600258B21 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70D478C2695DA7600258B21 /* Photo.swift */; };
 		F70D478F2695DD1700258B21 /* RealmOperations.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70D478E2695DD1700258B21 /* RealmOperations.swift */; };
 		F70D47912695DED500258B21 /* SearchGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70D47902695DED500258B21 /* SearchGroup.swift */; };
+		F75A81F726BC32F7009D4731 /* GetGroupOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F75A81F626BC32F7009D4731 /* GetGroupOperation.swift */; };
 		F7B788C626B7E10800B6400E /* GetNewsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7B788C526B7E10800B6400E /* GetNewsList.swift */; };
 		F7B788C826B7E1DA00B6400E /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7B788C726B7E1DA00B6400E /* News.swift */; };
 /* End PBXBuildFile section */
@@ -86,6 +87,7 @@
 		F70D478C2695DA7600258B21 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		F70D478E2695DD1700258B21 /* RealmOperations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmOperations.swift; sourceTree = "<group>"; };
 		F70D47902695DED500258B21 /* SearchGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGroup.swift; sourceTree = "<group>"; };
+		F75A81F626BC32F7009D4731 /* GetGroupOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetGroupOperation.swift; sourceTree = "<group>"; };
 		F7B788C526B7E10800B6400E /* GetNewsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetNewsList.swift; sourceTree = "<group>"; };
 		F7B788C726B7E1DA00B6400E /* News.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = News.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -198,6 +200,7 @@
 				D978C02024D8059F004D1075 /* GetFriendsList.swift */,
 				D978C02224D807F8004D1075 /* GetPhotosFriend.swift */,
 				D978C02424D827A4004D1075 /* GetGroupsList.swift */,
+				F75A81F626BC32F7009D4731 /* GetGroupOperation.swift */,
 				F70D47902695DED500258B21 /* SearchGroup.swift */,
 				F7B788C526B7E10800B6400E /* GetNewsList.swift */,
 				F70D478E2695DD1700258B21 /* RealmOperations.swift */,
@@ -374,6 +377,7 @@
 				D98FD8E5246DCF0E0080057D /* PhotosFriendCollectionViewController.swift in Sources */,
 				D9A5DAC524C5E325006D3E55 /* Groups.swift in Sources */,
 				F70D47912695DED500258B21 /* SearchGroup.swift in Sources */,
+				F75A81F726BC32F7009D4731 /* GetGroupOperation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

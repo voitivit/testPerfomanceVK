@@ -12,7 +12,9 @@ class GroupTableViewController: UITableViewController {
         subscribeToNotificationRealm() // загрузка данных из реалма (кэш) для первоначального отображения
 
         // запуск обновления данных из сети, запись в Реалм и загрузка из реалма новых данных
-        GetGroupsList().loadData()
+       // GetGroupsList().loadData()
+        // Запуск обновления из сети, с помощью Operation
+        GetGroupOperation().getData()
     }
     
     var realm: Realm = {
