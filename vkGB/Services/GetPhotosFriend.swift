@@ -74,7 +74,9 @@ class GetPhotosFriend {
                 let arrayPhotosFriend = try JSONDecoder().decode(PhotosResponse.self, from: data)
                 var photosFriend: [Photo] = []
                 var ownerID = ""
-
+                
+                guard arrayPhotosFriend.response.count != 0 else { return } // проверка на наличие фоток
+                    
                 for i in 0...arrayPhotosFriend.response.items.count-1 {
                     if let urlPhoto = arrayPhotosFriend.response.items[i].sizes.last?.url {
                         //ownerID = String(arrayPhotosFriend.response.items[i].owner_id)

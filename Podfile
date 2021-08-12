@@ -10,4 +10,5 @@ target 'Client VK' do
   pod 'RealmSwift'
   pod 'SwiftKeychainWrapper'
   pod 'Kingfisher'
+  pod 'PromiseKit'
 end
