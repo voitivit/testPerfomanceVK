@@ -32,6 +32,9 @@ class GroupTableViewController: UITableViewController {
     var myGroups: [Group] = []
     
 
+    lazy var imageCache = ImageCache(container: self.tableView) //для кэша картинок
+    
+
     // MARK: - TableView
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -43,13 +46,17 @@ class GroupTableViewController: UITableViewController {
         
         cell.nameGroupLabel.text = myGroups[indexPath.row].groupName
         
-        if let imgUrl = URL(string: myGroups[indexPath.row].groupLogo) {
-            let avatar = ImageResource(downloadURL: imgUrl) //работает через Kingfisher
-            cell.avatarGroupView.avatarImage.kf.indicatorType = .activity //работает через Kingfisher
-            cell.avatarGroupView.avatarImage.kf.setImage(with: avatar) //работает через Kingfisher
-            
-            //cell.avatarGroupView.avatarImage.load(url: imgUrl) // работает через extension UIImageView
-        }
+//        if let imgUrl = URL(string: myGroups[indexPath.row].groupLogo) {
+//            let avatar = ImageResource(downloadURL: imgUrl) //работает через Kingfisher
+//            cell.avatarGroupView.avatarImage.kf.indicatorType = .activity //работает через Kingfisher
+//            cell.avatarGroupView.avatarImage.kf.setImage(with: avatar) //работает через Kingfisher
+//
+//            //cell.avatarGroupView.avatarImage.load(url: imgUrl) // работает через extension UIImageView
+//        }
+        
+        // аватар работает через кэш в ImageCache
+        let imgUrl = myGroups[indexPath.row].groupLogo
+        cell.avatarGroupView.avatarImage.image = imageCache.getPhoto(at: indexPath, url: imgUrl)
         
         return cell
     }
@@ -75,6 +82,9 @@ class GroupTableViewController: UITableViewController {
     
     // кратковременное подсвечивание при нажатии на ячейку
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // для избавления смешивания цветов для разных слоёв (имя группы имеет белый фон в строриборде), меняем его при нажатии
+        let cell = tableView.cellForRow(at: indexPath) as! GroupTableViewCell
+        cell.nameGroupLabel.backgroundColor = cell.backgroundColor
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
@@ -91,15 +101,11 @@ class GroupTableViewController: UITableViewController {
                 self?.loadGroupsFromRealm()
 
                 //self?.tableView.beginUpdates()
-                
                 // крашится при вызове, так как не попадает в секции, надо перерабатывать логику
                 //self?.tableView.deleteRows(at: deletions.map{ IndexPath(row: $0, section: 0) }, with: .automatic)
                 //self?.tableView.insertRows(at: insertions.map{ IndexPath(row: $0, section: 0) }, with: .automatic)
                 //self?.tableView.reloadRows(at: modifications.map{ IndexPath(row: $0, section: 0) }, with: .automatic)
-                
                 //self?.tableView.endUpdates()
-                
-
             case let .error(error):
                 print(error)
             }
@@ -113,67 +119,36 @@ class GroupTableViewController: UITableViewController {
     }
     
     
-    // добавление новой группы из другого контроллера
-    @IBAction func addNewGroup(segue:UIStoryboardSegue) {
-        // проверка по идентификатору верный ли переход с ячейки
-        if segue.identifier == "AddGroup"{
-            // ссылка объект на контроллер с которого переход
-            guard let newGroupFromController = segue.source as? NewGroupTableViewController else { return }
-            // проверка индекса ячейки
-            if let indexPath = newGroupFromController.tableView.indexPathForSelectedRow {
-                //добавить новой группы в мои группы из общего списка групп
-                let newGroup = newGroupFromController.GroupsList[indexPath.row]
-                
-//                // проверка что группа уже в списке (нужен Equatable)
-                guard myGroups.description.contains(newGroup.groupName) == false else { return }
-                
-                // добавить новую группу (не нужно, так как все берется из Реалма)
-                //myGroups.append(newGroup)
-                
-                //  добавление новой группы в реалм
-                do {
-                    try realm.write{
-                        realm.add(newGroup)
+    // MARK: - Segue
+        
+        // добавление новой группы из другого контроллера
+        @IBAction func addNewGroup(segue:UIStoryboardSegue) {
+            // проверка по идентификатору верный ли переход с ячейки
+            if segue.identifier == "AddGroup"{
+                // ссылка объект на контроллер с которого переход
+                guard let newGroupFromController = segue.source as? NewGroupTableViewController else { return }
+                // проверка индекса ячейки
+                if let indexPath = newGroupFromController.tableView.indexPathForSelectedRow {
+                    //добавить новой группы в мои группы из общего списка групп
+                    let newGroup = newGroupFromController.GroupsList[indexPath.row]
+                    
+                    // проверка что группа уже в списке (нужен Equatable)
+                    guard myGroups.description.contains(newGroup.groupName) == false else { return }
+                    
+                    // добавить новую группу (не нужно, так как все берется из Реалма)
+                    //myGroups.append(newGroup)
+                    
+                    //  добавление новой группы в реалм
+                    do {
+                        try realm.write{
+                            realm.add(newGroup)
+                        }
+                    } catch {
+                        print(error)
                     }
-                } catch {
-                    print(error)
                 }
-                
-                writeNewGroupToFirebase(newGroup) // работа с Firebase
-                
             }
         }
-    }
-
-// MARK:  - Firebase
-
-private func writeNewGroupToFirebase(_ newGroup: Group){
-    // работаем с Firebase
-    let database = Database.database()
-    // путь к нужному пользователю в Firebase (тот кто залогинился уже есть базе, другие не интересны)
-    let ref: DatabaseReference = database.reference(withPath: "All logged users").child(String(Session.instance.userId))
     
-    // чтение из Firebase
-    ref.observe(.value) { snapshot in
-        
-        let groupsIDs = snapshot.children.compactMap { $0 as? DataSnapshot }
-            .compactMap { $0.key }
-        
-        // проверка есть ли ID группы в Firebase
-        guard groupsIDs.contains(String(newGroup.id)) == false else { return }
-
-        //ref.removeAllObservers() // отписываемся от уведомлений, чтобы не происходило изменений при изменении базы
-        ref.child(String(newGroup.id)).setValue(newGroup.groupName) // записываем новую группу в Firebase
-        
-        print("Для пользователя с ID: \(String(Session.instance.userId)) в Firebase записана группа:\n\(newGroup.groupName)")
-        
-        let groups = snapshot.children.compactMap { $0 as? DataSnapshot }
-        .compactMap { $0.value }
-        
-        print("\nРанее добавленные в Firebase группы пользователя с ID \(String(Session.instance.userId)):\n\(groups)")
-        ref.removeAllObservers() // отписываемся от уведомлений, чтобы не происходило изменений при записи в базу
-    }
-}
-
 
 }

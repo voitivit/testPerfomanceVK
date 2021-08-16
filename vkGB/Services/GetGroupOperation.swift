@@ -1,10 +1,4 @@
-//
-//  GetGroupOperation.swift
-//  Client VK
-//
-//  Created by emil kurbanov on 05.08.2021.
-//  Copyright © 2021 Vasily Petuhov. All rights reserved.
-//
+
 
 import Foundation
 import RealmSwift

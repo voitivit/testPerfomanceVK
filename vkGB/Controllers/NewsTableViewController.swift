@@ -16,6 +16,8 @@ class NewsTableViewController: UITableViewController {
     }
   
     var postNewsList: [PostNews] = []
+    lazy var imageCache = ImageCache(container: self.tableView)
+   // var postNewsList: [News] = []
 
     // MARK: - Table view data source
     
@@ -29,19 +31,18 @@ class NewsTableViewController: UITableViewController {
         
         if postNewsList[indexPath.row].textNews.isEmpty {
             identifier = "PhotoCell"
-            //print(identifier)
         } else {
             identifier = "PostCell"
-            //print(identifier)
         }
         
         let  cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as! NewsTableViewCell
-        //let  cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as! NewsTableViewCell
         
-        // аватар
-        //cell.avatarUserNews.avatarImage.image = postNewsList[indexPath.row].avatar
-        guard let avatarUrl = URL(string: postNewsList[indexPath.row].avatar ) else { return cell }
-        cell.avatarUserNews.avatarImage.load(url: avatarUrl) // работает через extension UIImageView
+        // аватар работает через extension UIImageView
+        //guard let avatarUrl = URL(string: postNewsList[indexPath.row].avatar ) else { return cell }
+        //cell.avatarUserNews.avatarImage.load(url: avatarUrl)
+        
+        // аватар работает через кэш в ImageCache
+        cell.avatarUserNews.avatarImage.image = imageCache.getPhoto(at: indexPath, url: postNewsList[indexPath.row].avatar)
         
         // имя автора
         cell.nameUserNews.text = postNewsList[indexPath.row].name
@@ -50,15 +51,6 @@ class NewsTableViewController: UITableViewController {
         cell.dateNews.text = postNewsList[indexPath.row].date
         cell.dateNews.font = UIFont.systemFont(ofSize: 12, weight: UIFont.Weight.light)
         cell.dateNews.textColor = UIColor.gray.withAlphaComponent(0.5)
-        
-        if identifier == "PostCell" {
-            cell.textNewPost.text = postNewsList[indexPath.row].textNews
-        }
-        
-        //картинка к новости
-        guard let imgUrl = URL(string: postNewsList[indexPath.row].imageNews ) else { return cell }
-        cell.imgNews.load(url: imgUrl) // работает через extension UIImageView
-        cell.imgNews.contentMode = .scaleAspectFill
         
         // лайки
         cell.likesCount.countLikes = postNewsList[indexPath.row].likes // значение для счетчика
@@ -73,6 +65,16 @@ class NewsTableViewController: UITableViewController {
         // просмотры
         cell.viewsCount.setTitle(String(postNewsList[indexPath.row].views), for: .normal)
         
+        // текст новости
+        if identifier == "PostCell" {
+            cell.textNewPost.text = postNewsList[indexPath.row].textNews
+        }
+        
+        //картинка к новости
+        guard let imgUrl = URL(string: postNewsList[indexPath.row].imageNews ) else { return cell }
+        cell.imgNews.image = UIImage(systemName: "icloud.and.arrow.down") // обнулить картинку
+        cell.imgNews.load(url: imgUrl) // работает через extension UIImageView
+        cell.imgNews.contentMode = .scaleAspectFill
 
         return cell
     }

@@ -44,6 +44,7 @@
 		F70D47912695DED500258B21 /* SearchGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70D47902695DED500258B21 /* SearchGroup.swift */; };
 		F75A81F726BC32F7009D4731 /* GetGroupOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F75A81F626BC32F7009D4731 /* GetGroupOperation.swift */; };
 		F75A824926C513D7009D4731 /* FriendsListPromise.swift in Sources */ = {isa = PBXBuildFile; fileRef = F75A824826C513D7009D4731 /* FriendsListPromise.swift */; };
+		F75A826F26CAC239009D4731 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = F75A826E26CAC239009D4731 /* ImageCache.swift */; };
 		F7B788C626B7E10800B6400E /* GetNewsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7B788C526B7E10800B6400E /* GetNewsList.swift */; };
 		F7B788C826B7E1DA00B6400E /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7B788C726B7E1DA00B6400E /* News.swift */; };
 /* End PBXBuildFile section */
@@ -90,6 +91,7 @@
 		F70D47902695DED500258B21 /* SearchGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGroup.swift; sourceTree = "<group>"; };
 		F75A81F626BC32F7009D4731 /* GetGroupOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetGroupOperation.swift; sourceTree = "<group>"; };
 		F75A824826C513D7009D4731 /* FriendsListPromise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsListPromise.swift; sourceTree = "<group>"; };
+		F75A826E26CAC239009D4731 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		F7B788C526B7E10800B6400E /* GetNewsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetNewsList.swift; sourceTree = "<group>"; };
 		F7B788C726B7E1DA00B6400E /* News.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = News.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -207,6 +209,7 @@
 				F70D47902695DED500258B21 /* SearchGroup.swift */,
 				F7B788C526B7E10800B6400E /* GetNewsList.swift */,
 				F70D478E2695DD1700258B21 /* RealmOperations.swift */,
+				F75A826E26CAC239009D4731 /* ImageCache.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -353,6 +356,7 @@
 				D9D11C8924C86FC000525073 /* FriendsTableViewController.swift in Sources */,
 				D96DF5192455BF19005CC3BA /* LoginFormController.swift in Sources */,
 				F70D478F2695DD1700258B21 /* RealmOperations.swift in Sources */,
+				F75A826F26CAC239009D4731 /* ImageCache.swift in Sources */,
 				D9A5DAC324C5E237006D3E55 /* Friends.swift in Sources */,
 				D978C02124D8059F004D1075 /* GetFriendsList.swift in Sources */,
 				D978C02324D807F8004D1075 /* GetPhotosFriend.swift in Sources */,

@@ -31,6 +31,8 @@ class PhotosFriendCollectionViewController: UICollectionViewController {
     var ownerID = ""
     var collectionPhotos: [Photo] = []
     
+    lazy var imageCache = ImageCache(container: self.collectionView) //для кэша картинок
+    
     
     // MARK: - TableView
     
@@ -41,12 +43,11 @@ class PhotosFriendCollectionViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotosFriendCell", for: indexPath) as! PhotosFriendCollectionViewCell
         
-        if let imgUrl = URL(string: collectionPhotos[indexPath.row].photo) {
-            let photo = ImageResource(downloadURL: imgUrl) //работает через Kingfisher
-            cell.photosFrienndImage.kf.setImage(with: photo) //работает через Kingfisher
-            
-            //cell.photosFrienndImage.load(url: imgUrl)  // работает через extension UIImageView
-        }
+   
+        
+        // работает через кэш в ImageCache
+        let imgUrl = collectionPhotos[indexPath.row].photo
+        cell.photosFrienndImage.image = imageCache.getPhoto(at: indexPath, url: imgUrl)
         
         return cell
     }

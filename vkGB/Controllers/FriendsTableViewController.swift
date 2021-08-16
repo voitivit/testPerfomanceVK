@@ -101,7 +101,10 @@ class FriendsTableViewController: UITableViewController, UISearchBarDelegate {
     
     // кратковременное подсвечивание при нажатии на ячейку
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath) as! FriendsTableViewCell
+        cell.nameFriendLabel.backgroundColor = cell.backgroundColor
         tableView.deselectRow(at: indexPath, animated: true)
+     
     }
     
     

@@ -122,8 +122,7 @@ class LoginFormController: UIViewController, UITextFieldDelegate {
     @IBAction func segueToLoginController​(segue:UIStoryboardSegue) {
         // проверка и действия
     }
-    
- //   var friendsList: [Friends] = []
+
     @IBAction func authVKSuccessful​(segue:UIStoryboardSegue) {
         if segue.identifier == "AuthVKSuccessful"{
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { //задержка, чтобы отработал контроллер с логином (иначе краш)
